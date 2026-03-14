@@ -1,6 +1,6 @@
 cask "frogtray" do
-  version "1.2"
-  sha256 "01fa844b59c11fd732d700c7e133e132f623532c0df50d169d9e356b3d076b5d"
+  version "1.3"
+  sha256 "3c50e73ff787d1c4c513143ece61590f23e2f7d30eb5b49d39131b70d541319c"
 
   url "https://github.com/oozoofrog/FrogTray/releases/download/v#{version}/FrogTray-#{version}.dmg"
   name "FrogTray"
