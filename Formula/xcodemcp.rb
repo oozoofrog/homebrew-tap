@@ -1,8 +1,8 @@
 class Xcodemcp < Formula
   desc "Go CLI wrapper around xcrun mcpbridge"
   homepage "https://github.com/oozoofrog/xcodemcp-cli"
-  url "https://github.com/oozoofrog/xcodemcp-cli/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "df901d6c5e8f85f24922ad2925c34aab20f76da8a8b20e1a34dbbe1881434356"
+  url "https://github.com/oozoofrog/xcodemcp-cli/archive/refs/tags/v0.2.1.tar.gz"
+  sha256 "8ef2338d13920b00cf5f78b4ac75723210c92ec0bcae78ea928b02ed2877e252"
   license "MIT"
 
   depends_on "go" => :build
