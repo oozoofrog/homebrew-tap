@@ -1,0 +1,58 @@
+class Swiftnest < Formula
+  desc "Bootstrap SwiftNest into iOS and SwiftUI repositories"
+  homepage "https://github.com/oozoofrog/swift-nest"
+  url "https://github.com/oozoofrog/swift-nest/archive/refs/tags/v0.1.7.tar.gz"
+  version "v0.1.7"
+  sha256 "109b8f637596165b981265e4d97877606df8473af835745d210a162293445eb5"
+
+  def install
+    libexec.install "Makefile", "templates", "profiles", "resources"
+    (libexec/"config").install "config/project.example.yaml"
+    (libexec/"tools/swiftnest-cli").install "tools/swiftnest-cli/Package.swift", "tools/swiftnest-cli/Sources", "tools/swiftnest-cli/Tests"
+    (libexec/"VERSION").write "#{version}\n"
+
+    system "swift", "build",
+           "--package-path", libexec/"tools/swiftnest-cli",
+           "--disable-sandbox",
+           "-c", "release",
+           "--jobs", "1",
+           "--product", "swiftnest"
+
+    (libexec/"bin").install libexec/"tools/swiftnest-cli/.build/release/swiftnest"
+
+    (bin/"swiftnest").write <<~EOS
+      #!/bin/bash
+      set -euo pipefail
+      export SWIFTNEST_ASSET_ROOT="#{libexec}"
+      export SWIFTNEST_ROOT="#{libexec}"
+      export HARNESS_ROOT="#{libexec}"
+      exec "#{libexec}/bin/swiftnest" "$@"
+    EOS
+    (bin/"swiftnest").chmod 0555
+  end
+
+  test do
+    assert_equal version.to_s, shell_output("#{bin}/swiftnest --version").strip
+    assert_match "ios-architecture", shell_output("#{bin}/swiftnest list-skills")
+    assert_match "개인 프로젝트", shell_output("SWIFTNEST_LANG=ko #{bin}/swiftnest list-profiles")
+
+    target = testpath/"sample-repo"
+    system "#{bin}/swiftnest", "--lang", "ko", "onboard", "--target", target, "--skill-agent", "codex", "--non-interactive"
+
+    assert_predicate target/"config/project.yaml", :exist?
+    assert_predicate target/"AGENTS.md", :exist?
+    assert_predicate target/".swiftnest/state.json", :exist?
+    assert_predicate target/".swiftnest/selected_skill_agent.txt", :exist?
+    assert_predicate target/".swiftnest/workflows/onboarding-review.md", :exist?
+    assert_predicate target/".agents/skills/swiftnest-ios-architecture/SKILL.md", :exist?
+    assert_predicate target/".agents/skills/swift-master/SKILL.md", :exist?
+    assert_predicate target/"profiles/advanced.yaml", :exist?
+    assert_predicate target/"templates/Docs/AI_RULES.md", :exist?
+    refute_predicate target/"swiftnest", :exist?
+    refute_predicate target/"tools/swiftnest-cli", :exist?
+
+    Dir.chdir(target) do
+      assert_match "onboarding-review", shell_output("#{bin}/swiftnest workflow list")
+    end
+  end
+end
