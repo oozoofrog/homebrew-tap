@@ -1,8 +1,8 @@
 class Xcodecli < Formula
   desc "Go CLI wrapper around xcrun mcpbridge"
   homepage "https://github.com/oozoofrog/xcodecli"
-  url "https://github.com/oozoofrog/xcodecli/archive/refs/tags/v0.5.1.tar.gz"
-  sha256 "2aea087e60ec2f9ceff2c8d525497377dd767d39271ef0d32b0a6e7e4f9eb507"
+  url "https://github.com/oozoofrog/xcodecli/archive/refs/tags/v0.5.2.tar.gz"
+  sha256 "ac2ecdf7c729943452b96b18abf701da1ae05d392c3f5390a504546e5225de3b"
   license "MIT"
 
   depends_on "go" => :build
