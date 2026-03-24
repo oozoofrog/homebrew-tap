@@ -1,8 +1,8 @@
 class Xcodecli < Formula
   desc "macOS CLI wrapper around xcrun mcpbridge"
   homepage "https://github.com/oozoofrog/xcodecli"
-  url "https://github.com/oozoofrog/xcodecli/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "8a2e000cc7891d2f16650a63a2533caff36c577a66bbbe6905fbf63f82f9f7f0"
+  url "https://github.com/oozoofrog/xcodecli/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "da383914addbfb42c8984670ad6f02413397f7ddaf4f0d19ccdf418f3e4c5a29"
   license "MIT"
 
   depends_on xcode: ["16.0", :build]
